@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: python-demo
-          image: us-central1-docker.pkg.dev/project-b21965c0-60b2-4525-a12/harness-app/python-demo:REPLACE_WITH_BUILD_TAG
+          image: us-central1-docker.pkg.dev/project-b21965c0-60b2-4525-a12/harness-app/python-demo:build-101
           ports:
             - name: http
               containerPort: 8080

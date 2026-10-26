@@ -1,14 +1,14 @@
 pipeline:
   name: Build and Push Python Image
   identifier: Build_Push_Python_Image
-  projectIdentifier: YOUR_HARNESS_PROJECT_ID
-  orgIdentifier: YOUR_HARNESS_ORG_ID
+  projectIdentifier: HarnessCICDZerotoHero
+  orgIdentifier: default
   tags: {}
   properties:
     ci:
       codebase:
-        connectorRef: YOUR_GITHUB_CONNECTOR_ID
-        repoName: tandiaa18/harness
+        connectorRef: harness_practical
+        repoName: tandiaa18/harnessCICD/HarnessCICD
         build: <+input>
   stages:
     - stage:
