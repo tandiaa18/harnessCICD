@@ -1,0 +1,51 @@
+pipeline:
+  name: Build and Push Python Image
+  identifier: Build_Push_Python_Image
+  projectIdentifier: YOUR_HARNESS_PROJECT_ID
+  orgIdentifier: YOUR_HARNESS_ORG_ID
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: YOUR_GITHUB_CONNECTOR_ID
+        repoName: tandiaa18/harness
+        build: <+input>
+  stages:
+    - stage:
+        name: Build and Push to Artifact Registry
+        identifier: Build_Push_GAR
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: Cloud
+            spec:
+              os: Linux
+              arch: Amd64
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Python unit smoke test
+                  identifier: Python_Smoke_Test
+                  spec:
+                    shell: Sh
+                    command: |
+                      set -eu
+                      cd app
+                      python3 --version
+                      python3 -m compileall -q main.py
+              - step:
+                  type: BuildAndPushGAR
+                  name: Build and Push to GAR
+                  identifier: BuildAndPushGAR
+                  spec:
+                    connectorRef: gcpImageConnector
+                    host: us-central1-docker.pkg.dev
+                    projectID: project-b21965c0-60b2-4525-a12
+                    imageName: harness-app/python-demo
+                    tags:
+                      - <+pipeline.sequenceId>
+                    context: .
+                    dockerfile: app/Dockerfile
+                    caching: true
